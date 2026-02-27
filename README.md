@@ -2,6 +2,29 @@
 
 > **An open source full-stack AI webapp generator** – Deploy your own instance of Cloudflare VibeSDK, an AI vibe coding platform that you can run and customize yourself.
 
+## 🚀 Deployment Options
+
+This project supports two deployment targets:
+
+| Option | Platform | Infrastructure | Documentation |
+|--------|----------|----------------|---------------|
+| **Primary** | Cloudflare Workers | D1, R2, Durable Objects, Containers | See [Quick Deploy](#-quick-deploy-checklist) below |
+| **Alternative** | AWS | Lambda, DynamoDB, S3, Cognito, ECS Fargate | See [infra/DEPLOYMENT.md](infra/DEPLOYMENT.md) |
+
+### Cloudflare Deployment (Primary)
+```bash
+npm run deploy
+```
+Requires Cloudflare Workers Paid Plan. Uses `wrangler.jsonc` configuration.
+
+### AWS Deployment (Alternative)
+```bash
+cd infra && npm install && npx cdk deploy
+```
+Uses AWS CDK stack in `infra/` folder. See [infra/DEPLOYMENT.md](infra/DEPLOYMENT.md) for details.
+
+---
+
 <div align="center">
 
 

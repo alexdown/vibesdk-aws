@@ -154,6 +154,7 @@ class ApiClient {
 	private csrfTokenInfo: CSRFTokenInfo | null = null;
 
 	constructor(config: ApiClientConfig = {}) {
+		// Always use relative URLs - Vite proxy handles AWS backend routing
 		this.baseUrl = config.baseUrl || '';
 		this.defaultHeaders = {
 			'Content-Type': 'application/json',
@@ -166,6 +167,22 @@ class ApiClient {
 	 */
 	private getAuthHeaders(): Record<string, string> {
 		const headers: Record<string, string> = {};
+
+		// For AWS backend, use Cognito token
+		if (import.meta.env.VITE_BACKEND === 'aws') {
+			const token = localStorage.getItem('cognito_tokens');
+			if (token) {
+				try {
+					const tokens = JSON.parse(token);
+					if (tokens.accessToken) {
+						headers['Authorization'] = `Bearer ${tokens.accessToken}`;
+					}
+				} catch {
+					// ignore
+				}
+			}
+			return headers;
+		}
 
 		// Add session token for anonymous users if not authenticated
 		// This will be handled automatically by cookies/credentials for authenticated users
@@ -186,6 +203,10 @@ class ApiClient {
 	 * Fetch CSRF token from server with expiration handling
 	 */
 	private async fetchCsrfToken(): Promise<boolean> {
+		// Skip CSRF for AWS backend - uses Cognito tokens instead
+		if (import.meta.env.VITE_BACKEND === 'aws') {
+			return true;
+		}
 		try {
 			const response = await fetch(`${this.baseUrl}/api/auth/csrf-token`, {
 				method: 'GET',

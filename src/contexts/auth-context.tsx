@@ -7,6 +7,8 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import { useNavigate } from 'react-router';
 import { apiClient, ApiError } from '@/lib/api-client';
 import { useSentryUser } from '@/hooks/useSentryUser';
+import { cognitoAuth } from '@/lib/cognito-auth';
+import { isAwsBackend } from '@/lib/aws-config';
 import type { AuthSession, AuthUser } from '../api-types';
 
 interface AuthContextType {
@@ -96,6 +98,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Fetch auth providers configuration
   const fetchAuthProviders = useCallback(async () => {
+    // For AWS backend, use static config
+    if (isAwsBackend()) {
+      setAuthProviders({ google: true, github: false, email: true });
+      setHasOAuth(true);
+      setRequiresEmailAuth(false);
+      return;
+    }
+
     try {
       const response = await apiClient.getAuthProviders();
       if (response.success && response.data) {
@@ -140,6 +150,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Check authentication status
   const checkAuth = useCallback(async () => {
     try {
+      // For AWS backend, check Cognito tokens
+      if (isAwsBackend()) {
+        const cognitoUser = cognitoAuth.parseIdToken();
+        if (cognitoUser) {
+          setUser({
+            id: cognitoUser.sub,
+            email: cognitoUser.email,
+            displayName: cognitoUser.name || cognitoUser.email,
+            avatarUrl: cognitoUser.picture,
+            isAnonymous: false,
+          } as AuthUser);
+          setToken(cognitoAuth.getAccessToken());
+          setSession({
+            userId: cognitoUser.sub,
+            email: cognitoUser.email,
+            sessionId: cognitoUser.sub,
+            expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+          });
+        } else {
+          setUser(null);
+          setToken(null);
+          setSession(null);
+        }
+        setIsLoading(false);
+        return;
+      }
+
       const response = await apiClient.getProfile(true);
       
       if (response.success && response.data?.user) {
@@ -192,6 +229,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Store intended redirect URL if provided, otherwise use current location
     const intendedUrl = redirectUrl || window.location.pathname + window.location.search;
     setIntendedUrl(intendedUrl);
+    
+    // For AWS backend, use Cognito hosted UI
+    if (isAwsBackend()) {
+      const callbackUrl = `${window.location.origin}/auth/callback`;
+      window.location.href = cognitoAuth.getLoginUrl(callbackUrl);
+      return;
+    }
     
     // Build OAuth URL with redirect parameter
     const oauthUrl = new URL(`/api/auth/oauth/${provider}`, window.location.origin);

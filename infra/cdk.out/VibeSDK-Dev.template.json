@@ -1,0 +1,6105 @@
+{
+ "Description": "AWS VibeSDK Infrastructure - dev environment",
+ "Resources": {
+  "NetworkingVPC47331CE2": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "vibesdk-dev-vpc"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/Resource"
+   }
+  },
+  "NetworkingVPCPublicSubnet1Subnet456768EF": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PublicSubnet1"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet1/Subnet"
+   }
+  },
+  "NetworkingVPCPublicSubnet1RouteTableFB7DB6BF": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PublicSubnet1"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet1/RouteTable"
+   }
+  },
+  "NetworkingVPCPublicSubnet1RouteTableAssociation998A5E8B": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPublicSubnet1RouteTableFB7DB6BF"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingVPCPublicSubnet1Subnet456768EF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "NetworkingVPCPublicSubnet1DefaultRoute87E8EA0A": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "NetworkingVPCIGW820460A7"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPublicSubnet1RouteTableFB7DB6BF"
+    }
+   },
+   "DependsOn": [
+    "NetworkingVPCVPCGW3AF12CB4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "NetworkingVPCPublicSubnet1EIP13C5F113": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PublicSubnet1"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet1/EIP"
+   }
+  },
+  "NetworkingVPCPublicSubnet1NATGateway6E1AC04D": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "NetworkingVPCPublicSubnet1EIP13C5F113",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "NetworkingVPCPublicSubnet1Subnet456768EF"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PublicSubnet1"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "DependsOn": [
+    "NetworkingVPCPublicSubnet1DefaultRoute87E8EA0A",
+    "NetworkingVPCPublicSubnet1RouteTableAssociation998A5E8B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet1/NATGateway"
+   }
+  },
+  "NetworkingVPCPublicSubnet2Subnet06EE199A": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PublicSubnet2"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet2/Subnet"
+   }
+  },
+  "NetworkingVPCPublicSubnet2RouteTable11EAC724": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PublicSubnet2"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet2/RouteTable"
+   }
+  },
+  "NetworkingVPCPublicSubnet2RouteTableAssociation9794F550": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPublicSubnet2RouteTable11EAC724"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingVPCPublicSubnet2Subnet06EE199A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "NetworkingVPCPublicSubnet2DefaultRouteFC2DBB44": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "NetworkingVPCIGW820460A7"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPublicSubnet2RouteTable11EAC724"
+    }
+   },
+   "DependsOn": [
+    "NetworkingVPCVPCGW3AF12CB4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "NetworkingVPCPrivateSubnet1SubnetA4560E1F": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PrivateSubnet1"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet1/Subnet"
+   }
+  },
+  "NetworkingVPCPrivateSubnet1RouteTableBD91F27D": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PrivateSubnet1"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet1/RouteTable"
+   }
+  },
+  "NetworkingVPCPrivateSubnet1RouteTableAssociation2E7F0CAC": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPrivateSubnet1RouteTableBD91F27D"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingVPCPrivateSubnet1SubnetA4560E1F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "NetworkingVPCPrivateSubnet1DefaultRoute3B75A0EB": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "NetworkingVPCPublicSubnet1NATGateway6E1AC04D"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPrivateSubnet1RouteTableBD91F27D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "NetworkingVPCPrivateSubnet2Subnet388EEB72": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PrivateSubnet2"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet2/Subnet"
+   }
+  },
+  "NetworkingVPCPrivateSubnet2RouteTable3CDBE855": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/PrivateSubnet2"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet2/RouteTable"
+   }
+  },
+  "NetworkingVPCPrivateSubnet2RouteTableAssociation166DD089": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPrivateSubnet2RouteTable3CDBE855"
+    },
+    "SubnetId": {
+     "Ref": "NetworkingVPCPrivateSubnet2Subnet388EEB72"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "NetworkingVPCPrivateSubnet2DefaultRoute958EA54D": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "NetworkingVPCPublicSubnet1NATGateway6E1AC04D"
+    },
+    "RouteTableId": {
+     "Ref": "NetworkingVPCPrivateSubnet2RouteTable3CDBE855"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "NetworkingVPCIGW820460A7": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "vibesdk-dev-vpc"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/IGW"
+   }
+  },
+  "NetworkingVPCVPCGW3AF12CB4": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "NetworkingVPCIGW820460A7"
+    },
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/VPCGW"
+   }
+  },
+  "NetworkingVPCRestrictDefaultSecurityGroupCustomResource159A54B7": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NetworkingVPC47331CE2",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "159326044546"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "NetworkingVPCFlowLogIAMRole1D8C3E07": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/FlowLog"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/FlowLog/IAMRole/Resource"
+   }
+  },
+  "NetworkingVPCFlowLogIAMRoleDefaultPolicy45AB1511": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "NetworkingVPCFlowLogLogGroup0B7A206D",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "NetworkingVPCFlowLogIAMRoleDefaultPolicy45AB1511",
+    "Roles": [
+     {
+      "Ref": "NetworkingVPCFlowLogIAMRole1D8C3E07"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/FlowLog/IAMRole/DefaultPolicy/Resource"
+   }
+  },
+  "NetworkingVPCFlowLogLogGroup0B7A206D": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/FlowLog"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/FlowLog/LogGroup/Resource"
+   }
+  },
+  "NetworkingVPCFlowLogDD15E690": {
+   "Type": "AWS::EC2::FlowLog",
+   "Properties": {
+    "DeliverLogsPermissionArn": {
+     "Fn::GetAtt": [
+      "NetworkingVPCFlowLogIAMRole1D8C3E07",
+      "Arn"
+     ]
+    },
+    "LogDestinationType": "cloud-watch-logs",
+    "LogGroupName": {
+     "Ref": "NetworkingVPCFlowLogLogGroup0B7A206D"
+    },
+    "ResourceId": {
+     "Ref": "NetworkingVPC47331CE2"
+    },
+    "ResourceType": "VPC",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Name",
+      "Value": "VibeSDK-Dev/Networking/VPC/FlowLog"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "TrafficType": "ALL"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/VPC/FlowLog/FlowLog"
+   }
+  },
+  "NetworkingALBSecurityGroup778F5094": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for Application Load Balancer",
+    "GroupName": "vibesdk-dev-alb-sg",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTP traffic from internet",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTPS traffic from internet",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/ALBSecurityGroup/Resource"
+   }
+  },
+  "NetworkingECSSecurityGroup50D85B84": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for ECS Fargate sandbox containers",
+    "GroupName": "vibesdk-dev-ecs-sg",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/ECSSecurityGroup/Resource"
+   }
+  },
+  "NetworkingECSSecurityGroupfromVibeSDKDevNetworkingALBSecurityGroupF917280E3000FD1E58FF": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow traffic from ALB to sandbox containers on port 3000",
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "NetworkingECSSecurityGroup50D85B84",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NetworkingALBSecurityGroup778F5094",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3000
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/ECSSecurityGroup/from VibeSDKDevNetworkingALBSecurityGroupF917280E:3000"
+   }
+  },
+  "NetworkingECSSecurityGroupfromVibeSDKDevNetworkingALBSecurityGroupF917280E30003100540BD8A0": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow traffic from ALB to sandbox containers on dev server ports",
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "NetworkingECSSecurityGroup50D85B84",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NetworkingALBSecurityGroup778F5094",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3100
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/ECSSecurityGroup/from VibeSDKDevNetworkingALBSecurityGroupF917280E:3000-3100"
+   }
+  },
+  "NetworkingECSSecurityGroupfromVibeSDKDevNetworkingLambdaSecurityGroupD9E023F9ALLPORTS3F4BFF76": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow Lambda to communicate with ECS tasks",
+    "FromPort": 0,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "NetworkingECSSecurityGroup50D85B84",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NetworkingLambdaSecurityGroupA5120D58",
+      "GroupId"
+     ]
+    },
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/ECSSecurityGroup/from VibeSDKDevNetworkingLambdaSecurityGroupD9E023F9:ALL PORTS"
+   }
+  },
+  "NetworkingLambdaSecurityGroupA5120D58": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for Lambda functions with VPC access",
+    "GroupName": "vibesdk-dev-lambda-sg",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Networking/LambdaSecurityGroup/Resource"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:us-east-1:159326044546:security-group/",
+             {
+              "Fn::GetAtt": [
+               "NetworkingVPC47331CE2",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
+   }
+  },
+  "DatabaseMainTableCC4AF5A1": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "PK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "SK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "GSI1PK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "GSI1SK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "GSI2PK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "GSI2SK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "GSI3PK",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "GSI3SK",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "GSI1",
+      "KeySchema": [
+       {
+        "AttributeName": "GSI1PK",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "GSI1SK",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "GSI2",
+      "KeySchema": [
+       {
+        "AttributeName": "GSI2PK",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "GSI2SK",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "GSI3",
+      "KeySchema": [
+       {
+        "AttributeName": "GSI3PK",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "GSI3SK",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "PK",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "SK",
+      "KeyType": "RANGE"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": false
+    },
+    "StreamSpecification": {
+     "StreamViewType": "NEW_AND_OLD_IMAGES"
+    },
+    "TableName": "vibesdk-dev-main",
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "TimeToLiveSpecification": {
+     "AttributeName": "TTL",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Database/MainTable/Resource"
+   }
+  },
+  "StorageTemplatesBucketA3218BD9": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "vibesdk-dev-templates-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Storage/TemplatesBucket/Resource"
+   }
+  },
+  "StorageTemplatesBucketPolicyB526EA0D": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "StorageTemplatesBucketA3218BD9"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageTemplatesBucketA3218BD9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageTemplatesBucketA3218BD9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageTemplatesBucketA3218BD9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageTemplatesBucketA3218BD9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Storage/TemplatesBucket/Policy/Resource"
+   }
+  },
+  "StorageTemplatesBucketAutoDeleteObjectsCustomResourceFA3E605B": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "StorageTemplatesBucketA3218BD9"
+    }
+   },
+   "DependsOn": [
+    "StorageTemplatesBucketPolicyB526EA0D"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Storage/TemplatesBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "StorageAssetsBucket9CC199D9": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "vibesdk-dev-assets-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "HEAD"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ],
+       "MaxAge": 3600
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Storage/AssetsBucket/Resource"
+   }
+  },
+  "StorageAssetsBucketPolicy7CA0D0FE": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "StorageAssetsBucket9CC199D9"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageAssetsBucket9CC199D9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageAssetsBucket9CC199D9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageAssetsBucket9CC199D9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageAssetsBucket9CC199D9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Storage/AssetsBucket/Policy/Resource"
+   }
+  },
+  "StorageAssetsBucketAutoDeleteObjectsCustomResource910C8407": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "StorageAssetsBucket9CC199D9"
+    }
+   },
+   "DependsOn": [
+    "StorageAssetsBucketPolicy7CA0D0FE"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Storage/AssetsBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "StorageTemplatesBucketA3218BD9"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "AuthGitHubOAuthSecret72ED515D": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "GitHub OAuth client credentials",
+    "GenerateSecretString": {
+     "GenerateStringKey": "clientSecret",
+     "SecretStringTemplate": "{\"clientId\":\"PLACEHOLDER\"}"
+    },
+    "Name": "vibesdk/dev/github-oauth"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Auth/GitHubOAuthSecret/Resource"
+   }
+  },
+  "AuthGoogleOAuthSecret3D624AD9": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "Google OAuth client credentials",
+    "GenerateSecretString": {
+     "GenerateStringKey": "clientSecret",
+     "SecretStringTemplate": "{\"clientId\":\"PLACEHOLDER\"}"
+    },
+    "Name": "vibesdk/dev/google-oauth"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Auth/GoogleOAuthSecret/Resource"
+   }
+  },
+  "AuthUserPool8115E87F": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": false,
+      "RequireUppercase": true
+     }
+    },
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     },
+     {
+      "Mutable": true,
+      "Name": "name",
+      "Required": false
+     },
+     {
+      "Mutable": true,
+      "Name": "picture",
+      "Required": false
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "provider"
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "providerId"
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "preferences"
+     }
+    ],
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UserPoolName": "vibesdk-dev-users",
+    "UserPoolTags": {
+     "Environment": "dev",
+     "Project": "VibeSDK"
+    },
+    "UsernameAttributes": [
+     "email"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Auth/UserPool/Resource"
+   }
+  },
+  "AuthUserPoolDomain31C6792A": {
+   "Type": "AWS::Cognito::UserPoolDomain",
+   "Properties": {
+    "Domain": "vibesdk-dev",
+    "UserPoolId": {
+     "Ref": "AuthUserPool8115E87F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Auth/UserPool/Domain/Resource"
+   }
+  },
+  "AuthUserPoolAppClient1D18298A": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AccessTokenValidity": 60,
+    "AllowedOAuthFlows": [
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "email",
+     "openid",
+     "profile"
+    ],
+    "CallbackURLs": [
+     "http://localhost:5173/auth/callback"
+    ],
+    "ClientName": "vibesdk-dev-client",
+    "ExplicitAuthFlows": [
+     "ALLOW_CUSTOM_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "GenerateSecret": false,
+    "IdTokenValidity": 60,
+    "LogoutURLs": [
+     "http://localhost:5173"
+    ],
+    "RefreshTokenValidity": 43200,
+    "SupportedIdentityProviders": [
+     "Google",
+     "COGNITO"
+    ],
+    "TokenValidityUnits": {
+     "AccessToken": "minutes",
+     "IdToken": "minutes",
+     "RefreshToken": "minutes"
+    },
+    "UserPoolId": {
+     "Ref": "AuthUserPool8115E87F"
+    }
+   },
+   "DependsOn": [
+    "AuthGoogleProviderA3A93E63"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Auth/UserPool/AppClient/Resource"
+   }
+  },
+  "AuthGoogleProviderA3A93E63": {
+   "Type": "AWS::Cognito::UserPoolIdentityProvider",
+   "Properties": {
+    "AttributeMapping": {
+     "email": "email",
+     "name": "name",
+     "picture": "picture",
+     "custom:providerId": "sub"
+    },
+    "ProviderDetails": {
+     "client_id": {
+      "Fn::Join": [
+       "",
+       [
+        "{{resolve:secretsmanager:",
+        {
+         "Ref": "AuthGoogleOAuthSecret3D624AD9"
+        },
+        ":SecretString:clientId::}}"
+       ]
+      ]
+     },
+     "client_secret": {
+      "Fn::Join": [
+       "",
+       [
+        "{{resolve:secretsmanager:",
+        {
+         "Ref": "AuthGoogleOAuthSecret3D624AD9"
+        },
+        ":SecretString:clientSecret::}}"
+       ]
+      ]
+     },
+     "authorize_scopes": "profile email openid"
+    },
+    "ProviderName": "Google",
+    "ProviderType": "Google",
+    "UserPoolId": {
+     "Ref": "AuthUserPool8115E87F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Auth/GoogleProvider/Resource"
+   }
+  },
+  "ApiRestApiE35FEAFE": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "VibeSDK REST API",
+    "Name": "vibesdk-dev-api"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Resource"
+   }
+  },
+  "ApiRestApiDeploymentDC05A82Dd6d749e37f99b5e297cbb0382bbd977e": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "VibeSDK REST API",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "DependsOn": [
+    "ApiAuthorizer787544C1",
+    "ApiRestApiappsappIdDELETEC338D20A",
+    "ApiRestApiappsappIdGET195FE3AD",
+    "ApiRestApiappsappIdOPTIONS4E0DCFAE",
+    "ApiRestApiappsappIdPUTB1649CF3",
+    "ApiRestApiappsappIdD8BBD56A",
+    "ApiRestApiappsGET48C8EB84",
+    "ApiRestApiappsOPTIONS1F809B1E",
+    "ApiRestApiappsPOSTE1CED83A",
+    "ApiRestApiapps8399F61D",
+    "ApiRestApiauthcallbackGET8C0B454F",
+    "ApiRestApiauthcallbackOPTIONSA88B03DD",
+    "ApiRestApiauthcallbackD8F8949D",
+    "ApiRestApiauthlogoutOPTIONSCC631BAD",
+    "ApiRestApiauthlogoutPOST5821404E",
+    "ApiRestApiauthlogout4001ADC1",
+    "ApiRestApiauthoauthproviderGETD928BA0B",
+    "ApiRestApiauthoauthproviderOPTIONS03852C81",
+    "ApiRestApiauthoauthprovider94D03757",
+    "ApiRestApiauthoauthOPTIONSAD5230BC",
+    "ApiRestApiauthoauthB7751D8A",
+    "ApiRestApiauthOPTIONS1E88FE55",
+    "ApiRestApiauthrefreshOPTIONS8C0D1B8A",
+    "ApiRestApiauthrefreshPOST50963AF0",
+    "ApiRestApiauthrefresh1FB76385",
+    "ApiRestApiauth196F97B4",
+    "ApiRestApiOPTIONSB925735A",
+    "ApiRestApiuserGET3EEB7848",
+    "ApiRestApiuserOPTIONSEA743A3A",
+    "ApiRestApiuserPUTAABC8F85",
+    "ApiRestApiuserD863F795"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "ApiRestApiDeploymentStagedevE2B308CE": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "ApiRestApiDeploymentDC05A82Dd6d749e37f99b5e297cbb0382bbd977e"
+    },
+    "MethodSettings": [
+     {
+      "DataTraceEnabled": false,
+      "HttpMethod": "*",
+      "ResourcePath": "/*",
+      "ThrottlingBurstLimit": 2000,
+      "ThrottlingRateLimit": 1000
+     }
+    ],
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    },
+    "StageName": "dev"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/DeploymentStage.dev/Resource"
+   }
+  },
+  "ApiRestApiOPTIONSB925735A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "ApiRestApiE35FEAFE",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauth196F97B4": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "ApiRestApiE35FEAFE",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "auth",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/Resource"
+   }
+  },
+  "ApiRestApiauthOPTIONS1E88FE55": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiauth196F97B4"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauthoauthB7751D8A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ApiRestApiauth196F97B4"
+    },
+    "PathPart": "oauth",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/Resource"
+   }
+  },
+  "ApiRestApiauthoauthOPTIONSAD5230BC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiauthoauthB7751D8A"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauthoauthprovider94D03757": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ApiRestApiauthoauthB7751D8A"
+    },
+    "PathPart": "{provider}",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/{provider}/Resource"
+   }
+  },
+  "ApiRestApiauthoauthproviderOPTIONS03852C81": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiauthoauthprovider94D03757"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/{provider}/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauthoauthproviderGETApiPermissionVibeSDKDevApiRestApiAF746228GETauthoauthprovider283405B2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiOAuthInitiateFn115D9DED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/GET/auth/oauth/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/{provider}/GET/ApiPermission.VibeSDKDevApiRestApiAF746228.GET..auth.oauth.{provider}"
+   }
+  },
+  "ApiRestApiauthoauthproviderGETApiPermissionTestVibeSDKDevApiRestApiAF746228GETauthoauthprovider478A0392": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiOAuthInitiateFn115D9DED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/GET/auth/oauth/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/{provider}/GET/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.GET..auth.oauth.{provider}"
+   }
+  },
+  "ApiRestApiauthoauthproviderGETD928BA0B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiOAuthInitiateFn115D9DED",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiauthoauthprovider94D03757"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/oauth/{provider}/GET/Resource"
+   }
+  },
+  "ApiRestApiauthcallbackD8F8949D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ApiRestApiauth196F97B4"
+    },
+    "PathPart": "callback",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/callback/Resource"
+   }
+  },
+  "ApiRestApiauthcallbackOPTIONSA88B03DD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiauthcallbackD8F8949D"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/callback/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauthcallbackGETApiPermissionVibeSDKDevApiRestApiAF746228GETauthcallbackAE44964F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiOAuthCallbackFn02BB477F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/GET/auth/callback"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/callback/GET/ApiPermission.VibeSDKDevApiRestApiAF746228.GET..auth.callback"
+   }
+  },
+  "ApiRestApiauthcallbackGETApiPermissionTestVibeSDKDevApiRestApiAF746228GETauthcallback75A9F5EE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiOAuthCallbackFn02BB477F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/GET/auth/callback"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/callback/GET/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.GET..auth.callback"
+   }
+  },
+  "ApiRestApiauthcallbackGET8C0B454F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiOAuthCallbackFn02BB477F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiauthcallbackD8F8949D"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/callback/GET/Resource"
+   }
+  },
+  "ApiRestApiauthrefresh1FB76385": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ApiRestApiauth196F97B4"
+    },
+    "PathPart": "refresh",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/refresh/Resource"
+   }
+  },
+  "ApiRestApiauthrefreshOPTIONS8C0D1B8A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiauthrefresh1FB76385"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/refresh/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauthrefreshPOSTApiPermissionVibeSDKDevApiRestApiAF746228POSTauthrefreshD957D9D6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiRefreshFn1F4A0948",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/POST/auth/refresh"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/refresh/POST/ApiPermission.VibeSDKDevApiRestApiAF746228.POST..auth.refresh"
+   }
+  },
+  "ApiRestApiauthrefreshPOSTApiPermissionTestVibeSDKDevApiRestApiAF746228POSTauthrefresh789E7C8A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiRefreshFn1F4A0948",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/POST/auth/refresh"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/refresh/POST/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.POST..auth.refresh"
+   }
+  },
+  "ApiRestApiauthrefreshPOST50963AF0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiRefreshFn1F4A0948",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiauthrefresh1FB76385"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/refresh/POST/Resource"
+   }
+  },
+  "ApiRestApiauthlogout4001ADC1": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ApiRestApiauth196F97B4"
+    },
+    "PathPart": "logout",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/logout/Resource"
+   }
+  },
+  "ApiRestApiauthlogoutOPTIONSCC631BAD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiauthlogout4001ADC1"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/logout/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiauthlogoutPOSTApiPermissionVibeSDKDevApiRestApiAF746228POSTauthlogoutC43B92C1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLogoutFn6AADAA16",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/POST/auth/logout"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/logout/POST/ApiPermission.VibeSDKDevApiRestApiAF746228.POST..auth.logout"
+   }
+  },
+  "ApiRestApiauthlogoutPOSTApiPermissionTestVibeSDKDevApiRestApiAF746228POSTauthlogout1EC3C496": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLogoutFn6AADAA16",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/POST/auth/logout"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/logout/POST/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.POST..auth.logout"
+   }
+  },
+  "ApiRestApiauthlogoutPOST5821404E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiLogoutFn6AADAA16",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiauthlogout4001ADC1"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/auth/logout/POST/Resource"
+   }
+  },
+  "ApiRestApiapps8399F61D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "ApiRestApiE35FEAFE",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "apps",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/Resource"
+   }
+  },
+  "ApiRestApiappsOPTIONS1F809B1E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiapps8399F61D"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiappsGETApiPermissionVibeSDKDevApiRestApiAF746228GETapps9726F7F5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/GET/apps"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/GET/ApiPermission.VibeSDKDevApiRestApiAF746228.GET..apps"
+   }
+  },
+  "ApiRestApiappsGETApiPermissionTestVibeSDKDevApiRestApiAF746228GETappsF45C4004": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/GET/apps"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/GET/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.GET..apps"
+   }
+  },
+  "ApiRestApiappsGET48C8EB84": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiAppsFn57DA521D",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiapps8399F61D"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/GET/Resource"
+   }
+  },
+  "ApiRestApiappsPOSTApiPermissionVibeSDKDevApiRestApiAF746228POSTapps9D5954B5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/POST/apps"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/POST/ApiPermission.VibeSDKDevApiRestApiAF746228.POST..apps"
+   }
+  },
+  "ApiRestApiappsPOSTApiPermissionTestVibeSDKDevApiRestApiAF746228POSTapps089EBCCD": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/POST/apps"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/POST/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.POST..apps"
+   }
+  },
+  "ApiRestApiappsPOSTE1CED83A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiAppsFn57DA521D",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiapps8399F61D"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/POST/Resource"
+   }
+  },
+  "ApiRestApiappsappIdD8BBD56A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ApiRestApiapps8399F61D"
+    },
+    "PathPart": "{appId}",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/Resource"
+   }
+  },
+  "ApiRestApiappsappIdOPTIONS4E0DCFAE": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiappsappIdD8BBD56A"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiappsappIdGETApiPermissionVibeSDKDevApiRestApiAF746228GETappsappId7F3DDD40": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/GET/apps/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/GET/ApiPermission.VibeSDKDevApiRestApiAF746228.GET..apps.{appId}"
+   }
+  },
+  "ApiRestApiappsappIdGETApiPermissionTestVibeSDKDevApiRestApiAF746228GETappsappId870C957F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/GET/apps/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/GET/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.GET..apps.{appId}"
+   }
+  },
+  "ApiRestApiappsappIdGET195FE3AD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiAppsFn57DA521D",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiappsappIdD8BBD56A"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/GET/Resource"
+   }
+  },
+  "ApiRestApiappsappIdPUTApiPermissionVibeSDKDevApiRestApiAF746228PUTappsappId8CE87B03": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/PUT/apps/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/PUT/ApiPermission.VibeSDKDevApiRestApiAF746228.PUT..apps.{appId}"
+   }
+  },
+  "ApiRestApiappsappIdPUTApiPermissionTestVibeSDKDevApiRestApiAF746228PUTappsappId6ECDB5CF": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/PUT/apps/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/PUT/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.PUT..apps.{appId}"
+   }
+  },
+  "ApiRestApiappsappIdPUTB1649CF3": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiAppsFn57DA521D",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiappsappIdD8BBD56A"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/PUT/Resource"
+   }
+  },
+  "ApiRestApiappsappIdDELETEApiPermissionVibeSDKDevApiRestApiAF746228DELETEappsappId2A135FEB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/DELETE/apps/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/DELETE/ApiPermission.VibeSDKDevApiRestApiAF746228.DELETE..apps.{appId}"
+   }
+  },
+  "ApiRestApiappsappIdDELETEApiPermissionTestVibeSDKDevApiRestApiAF746228DELETEappsappId5392CD20": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAppsFn57DA521D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/DELETE/apps/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/DELETE/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.DELETE..apps.{appId}"
+   }
+  },
+  "ApiRestApiappsappIdDELETEC338D20A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiAppsFn57DA521D",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiappsappIdD8BBD56A"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/apps/{appId}/DELETE/Resource"
+   }
+  },
+  "ApiRestApiuserD863F795": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "ApiRestApiE35FEAFE",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "user",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/Resource"
+   }
+  },
+  "ApiRestApiuserOPTIONSEA743A3A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Requested-With'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ApiRestApiuserD863F795"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/OPTIONS/Resource"
+   }
+  },
+  "ApiRestApiuserGETApiPermissionVibeSDKDevApiRestApiAF746228GETuser7DC3D4E1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiUserFnE7F9860F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/GET/user"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/GET/ApiPermission.VibeSDKDevApiRestApiAF746228.GET..user"
+   }
+  },
+  "ApiRestApiuserGETApiPermissionTestVibeSDKDevApiRestApiAF746228GETuserABD0C47C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiUserFnE7F9860F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/GET/user"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/GET/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.GET..user"
+   }
+  },
+  "ApiRestApiuserGET3EEB7848": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiUserFnE7F9860F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiuserD863F795"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/GET/Resource"
+   }
+  },
+  "ApiRestApiuserPUTApiPermissionVibeSDKDevApiRestApiAF746228PUTuser8D71188D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiUserFnE7F9860F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/",
+       {
+        "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+       },
+       "/PUT/user"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/PUT/ApiPermission.VibeSDKDevApiRestApiAF746228.PUT..user"
+   }
+  },
+  "ApiRestApiuserPUTApiPermissionTestVibeSDKDevApiRestApiAF746228PUTuser9004E7C5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiUserFnE7F9860F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/test-invoke-stage/PUT/user"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/PUT/ApiPermission.Test.VibeSDKDevApiRestApiAF746228.PUT..user"
+   }
+  },
+  "ApiRestApiuserPUTAABC8F85": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "ApiAuthorizer787544C1"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ApiUserFnE7F9860F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ApiRestApiuserD863F795"
+    },
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RestApi/Default/user/PUT/Resource"
+   }
+  },
+  "ApiAuthorizerFnServiceRole1C6A7C39": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/AuthorizerFn/ServiceRole/Resource"
+   }
+  },
+  "ApiAuthorizerFn0AD8B47E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "1a06029c797e952eff37a5ebc81343f16ccd53cc1c015dc0acb0a24ba7c76fdb.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "USER_POOL_ID": {
+       "Ref": "AuthUserPool8115E87F"
+      },
+      "CLIENT_ID": {
+       "Ref": "AuthUserPoolAppClient1D18298A"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiAuthorizerFnServiceRole1C6A7C39",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "ApiAuthorizerFnServiceRole1C6A7C39"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/AuthorizerFn/Resource",
+    "aws:asset:path": "asset.1a06029c797e952eff37a5ebc81343f16ccd53cc1c015dc0acb0a24ba7c76fdb",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiAuthorizerFnVibeSDKDevApiAuthorizer5F2DAFE4Permissions22B96DC8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiAuthorizerFn0AD8B47E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "ApiRestApiE35FEAFE"
+       },
+       "/authorizers/",
+       {
+        "Ref": "ApiAuthorizer787544C1"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/AuthorizerFn/VibeSDKDevApiAuthorizer5F2DAFE4:Permissions"
+   }
+  },
+  "ApiAuthorizer787544C1": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "AuthorizerResultTtlInSeconds": 300,
+    "AuthorizerUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "ApiAuthorizerFn0AD8B47E",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ":apigateway:",
+       {
+        "Fn::Select": [
+         3,
+         {
+          "Fn::Split": [
+           ":",
+           {
+            "Fn::GetAtt": [
+             "ApiAuthorizerFn0AD8B47E",
+             "Arn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       ":lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "ApiAuthorizerFn0AD8B47E",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    },
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "VibeSDKDevApiAuthorizer5F2DAFE4",
+    "RestApiId": {
+     "Ref": "ApiRestApiE35FEAFE"
+    },
+    "Type": "TOKEN"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/Authorizer/Resource"
+   }
+  },
+  "ApiOAuthInitiateFnServiceRole9B9CF201": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/OAuthInitiateFn/ServiceRole/Resource"
+   }
+  },
+  "ApiOAuthInitiateFn115D9DED": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "f6e34c8eb0893738ba80166579f5e7fa402e07c1263a70fb00c6602772bf2eaa.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "COGNITO_DOMAIN": "vibesdk-dev.auth.us-east-1.amazoncognito.com",
+      "CLIENT_ID": {
+       "Ref": "AuthUserPoolAppClient1D18298A"
+      },
+      "REDIRECT_URI": "https://placeholder.execute-api.us-east-1.amazonaws.com/dev/auth/callback"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiOAuthInitiateFnServiceRole9B9CF201",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x"
+   },
+   "DependsOn": [
+    "ApiOAuthInitiateFnServiceRole9B9CF201"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/OAuthInitiateFn/Resource",
+    "aws:asset:path": "asset.f6e34c8eb0893738ba80166579f5e7fa402e07c1263a70fb00c6602772bf2eaa",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiOAuthCallbackFnServiceRoleEF9E84D1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/OAuthCallbackFn/ServiceRole/Resource"
+   }
+  },
+  "ApiOAuthCallbackFnServiceRoleDefaultPolicyF5427440": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiOAuthCallbackFnServiceRoleDefaultPolicyF5427440",
+    "Roles": [
+     {
+      "Ref": "ApiOAuthCallbackFnServiceRoleEF9E84D1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/OAuthCallbackFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiOAuthCallbackFn02BB477F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "d623954efbbeaf783eab1c6f34ccb3587a00b4130b75fa3f6038703acaa40898.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      },
+      "COGNITO_DOMAIN": "vibesdk-dev.auth.us-east-1.amazoncognito.com",
+      "CLIENT_ID": {
+       "Ref": "AuthUserPoolAppClient1D18298A"
+      },
+      "CLIENT_SECRET": "",
+      "REDIRECT_URI": "https://placeholder.execute-api.us-east-1.amazonaws.com/dev/auth/callback",
+      "JWT_SECRET": "vibesdk-dev-jwt-secret"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiOAuthCallbackFnServiceRoleEF9E84D1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ApiOAuthCallbackFnServiceRoleDefaultPolicyF5427440",
+    "ApiOAuthCallbackFnServiceRoleEF9E84D1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/OAuthCallbackFn/Resource",
+    "aws:asset:path": "asset.d623954efbbeaf783eab1c6f34ccb3587a00b4130b75fa3f6038703acaa40898",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiRefreshFnServiceRole368C43F7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RefreshFn/ServiceRole/Resource"
+   }
+  },
+  "ApiRefreshFnServiceRoleDefaultPolicy8DE8973A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiRefreshFnServiceRoleDefaultPolicy8DE8973A",
+    "Roles": [
+     {
+      "Ref": "ApiRefreshFnServiceRole368C43F7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RefreshFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiRefreshFn1F4A0948": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "7fa395c88f507bbb55f18a390801b79510b288ec988aaeeabf5e60fa08796863.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      },
+      "JWT_SECRET": "vibesdk-dev-jwt-secret"
+     }
+    },
+    "Handler": "index.refreshHandler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiRefreshFnServiceRole368C43F7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x"
+   },
+   "DependsOn": [
+    "ApiRefreshFnServiceRoleDefaultPolicy8DE8973A",
+    "ApiRefreshFnServiceRole368C43F7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/RefreshFn/Resource",
+    "aws:asset:path": "asset.7fa395c88f507bbb55f18a390801b79510b288ec988aaeeabf5e60fa08796863",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiLogoutFnServiceRoleAA0CF2B5": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/LogoutFn/ServiceRole/Resource"
+   }
+  },
+  "ApiLogoutFnServiceRoleDefaultPolicyA96C2E4B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLogoutFnServiceRoleDefaultPolicyA96C2E4B",
+    "Roles": [
+     {
+      "Ref": "ApiLogoutFnServiceRoleAA0CF2B5"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/LogoutFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiLogoutFn6AADAA16": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "7fa395c88f507bbb55f18a390801b79510b288ec988aaeeabf5e60fa08796863.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      },
+      "JWT_SECRET": "vibesdk-dev-jwt-secret"
+     }
+    },
+    "Handler": "index.revokeHandler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLogoutFnServiceRoleAA0CF2B5",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x"
+   },
+   "DependsOn": [
+    "ApiLogoutFnServiceRoleDefaultPolicyA96C2E4B",
+    "ApiLogoutFnServiceRoleAA0CF2B5"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/LogoutFn/Resource",
+    "aws:asset:path": "asset.7fa395c88f507bbb55f18a390801b79510b288ec988aaeeabf5e60fa08796863",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiAppsFnServiceRoleC4480FDD": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/AppsFn/ServiceRole/Resource"
+   }
+  },
+  "ApiAppsFnServiceRoleDefaultPolicyABD6F22B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiAppsFnServiceRoleDefaultPolicyABD6F22B",
+    "Roles": [
+     {
+      "Ref": "ApiAppsFnServiceRoleC4480FDD"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/AppsFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiAppsFn57DA521D": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "5973f8d73f629a9c9f4e97fce09afaf9e56e3bb76a07d61abe87a9712e5161b2.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiAppsFnServiceRoleC4480FDD",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ApiAppsFnServiceRoleDefaultPolicyABD6F22B",
+    "ApiAppsFnServiceRoleC4480FDD"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/AppsFn/Resource",
+    "aws:asset:path": "asset.5973f8d73f629a9c9f4e97fce09afaf9e56e3bb76a07d61abe87a9712e5161b2",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ApiUserFnServiceRoleCC895A16": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/UserFn/ServiceRole/Resource"
+   }
+  },
+  "ApiUserFnServiceRoleDefaultPolicy98DB2D5E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiUserFnServiceRoleDefaultPolicy98DB2D5E",
+    "Roles": [
+     {
+      "Ref": "ApiUserFnServiceRoleCC895A16"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/UserFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiUserFnE7F9860F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "0ed1ac433012158eeef7a76e600c469e8b685fb4f8c7ec3b861493972a5c4570.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiUserFnServiceRoleCC895A16",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x"
+   },
+   "DependsOn": [
+    "ApiUserFnServiceRoleDefaultPolicy98DB2D5E",
+    "ApiUserFnServiceRoleCC895A16"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Api/UserFn/Resource",
+    "aws:asset:path": "asset.0ed1ac433012158eeef7a76e600c469e8b685fb4f8c7ec3b861493972a5c4570",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "WebSocketConnectFnServiceRole0620D378": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/ConnectFn/ServiceRole/Resource"
+   }
+  },
+  "WebSocketConnectFnServiceRoleDefaultPolicy34F7D387": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "WebSocketConnectFnServiceRoleDefaultPolicy34F7D387",
+    "Roles": [
+     {
+      "Ref": "WebSocketConnectFnServiceRole0620D378"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/ConnectFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "WebSocketConnectFn8800BE31": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "cf5709bcfa25511b9080fa2cf42818a7c745adcd475ed50f96c40f83c2e4e7de.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      },
+      "JWT_SECRET": "vibesdk-dev-jwt-secret"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "WebSocketConnectFnServiceRole0620D378",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "WebSocketConnectFnServiceRoleDefaultPolicy34F7D387",
+    "WebSocketConnectFnServiceRole0620D378"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/ConnectFn/Resource",
+    "aws:asset:path": "asset.cf5709bcfa25511b9080fa2cf42818a7c745adcd475ed50f96c40f83c2e4e7de",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "WebSocketDisconnectFnServiceRoleD3079872": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/DisconnectFn/ServiceRole/Resource"
+   }
+  },
+  "WebSocketDisconnectFnServiceRoleDefaultPolicy1F7C4E2A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "WebSocketDisconnectFnServiceRoleDefaultPolicy1F7C4E2A",
+    "Roles": [
+     {
+      "Ref": "WebSocketDisconnectFnServiceRoleD3079872"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/DisconnectFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "WebSocketDisconnectFn79BF8171": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "83b656a2e4be1885a020006455282bdb7c467fb8772026432fe759b714f87c46.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "WebSocketDisconnectFnServiceRoleD3079872",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "WebSocketDisconnectFnServiceRoleDefaultPolicy1F7C4E2A",
+    "WebSocketDisconnectFnServiceRoleD3079872"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/DisconnectFn/Resource",
+    "aws:asset:path": "asset.83b656a2e4be1885a020006455282bdb7c467fb8772026432fe759b714f87c46",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "WebSocketMessageFnServiceRoleB53D6AD1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/MessageFn/ServiceRole/Resource"
+   }
+  },
+  "WebSocketMessageFnServiceRoleDefaultPolicy94EBE0C6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DatabaseMainTableCC4AF5A1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DatabaseMainTableCC4AF5A1",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "execute-api:ManageConnections",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:execute-api:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":",
+          {
+           "Ref": "WebSocketWebSocketApiA2AA4B88"
+          },
+          "/dev/POST/@connections/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "WebSocketMessageFnServiceRoleDefaultPolicy94EBE0C6",
+    "Roles": [
+     {
+      "Ref": "WebSocketMessageFnServiceRoleB53D6AD1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/MessageFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "WebSocketMessageFn9604E2ED": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "53f4b795ff4274b5a021925d5fe8cad295899ff7b6b006a44fe4fbf0a16214c4.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "DatabaseMainTableCC4AF5A1"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "WebSocketMessageFnServiceRoleB53D6AD1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "WebSocketMessageFnServiceRoleDefaultPolicy94EBE0C6",
+    "WebSocketMessageFnServiceRoleB53D6AD1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/MessageFn/Resource",
+    "aws:asset:path": "asset.53f4b795ff4274b5a021925d5fe8cad295899ff7b6b006a44fe4fbf0a16214c4",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "WebSocketWebSocketApiA2AA4B88": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "Name": "vibesdk-dev-ws",
+    "ProtocolType": "WEBSOCKET",
+    "RouteSelectionExpression": "$request.body.action"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/Resource"
+   }
+  },
+  "WebSocketWebSocketApiconnectRouteConnectIntegrationPermission85B598E5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "WebSocketConnectFn8800BE31",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "WebSocketWebSocketApiA2AA4B88"
+       },
+       "/*$connect"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$connect-Route/ConnectIntegration-Permission"
+   }
+  },
+  "WebSocketWebSocketApiconnectRouteConnectIntegration7D09067D": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "WebSocketConnectFn8800BE31",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$connect-Route/ConnectIntegration/Resource"
+   }
+  },
+  "WebSocketWebSocketApiconnectRouteF7D31987": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "$connect",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "WebSocketWebSocketApiconnectRouteConnectIntegration7D09067D"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$connect-Route/Resource"
+   }
+  },
+  "WebSocketWebSocketApidisconnectRouteDisconnectIntegrationPermission1621BE12": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "WebSocketDisconnectFn79BF8171",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "WebSocketWebSocketApiA2AA4B88"
+       },
+       "/*$disconnect"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$disconnect-Route/DisconnectIntegration-Permission"
+   }
+  },
+  "WebSocketWebSocketApidisconnectRouteDisconnectIntegrationCD9020D3": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "WebSocketDisconnectFn79BF8171",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$disconnect-Route/DisconnectIntegration/Resource"
+   }
+  },
+  "WebSocketWebSocketApidisconnectRoute3734977F": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "$disconnect",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "WebSocketWebSocketApidisconnectRouteDisconnectIntegrationCD9020D3"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$disconnect-Route/Resource"
+   }
+  },
+  "WebSocketWebSocketApidefaultRouteDefaultIntegrationPermissionFFF35EBD": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "WebSocketMessageFn9604E2ED",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:159326044546:",
+       {
+        "Ref": "WebSocketWebSocketApiA2AA4B88"
+       },
+       "/*$default"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$default-Route/DefaultIntegration-Permission"
+   }
+  },
+  "WebSocketWebSocketApidefaultRouteDefaultIntegrationEA154271": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "WebSocketMessageFn9604E2ED",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$default-Route/DefaultIntegration/Resource"
+   }
+  },
+  "WebSocketWebSocketApidefaultRoute82A87767": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "$default",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "WebSocketWebSocketApidefaultRouteDefaultIntegrationEA154271"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/WebSocketApi/$default-Route/Resource"
+   }
+  },
+  "WebSocketStageE8999091": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketWebSocketApiA2AA4B88"
+    },
+    "AutoDeploy": true,
+    "StageName": "dev"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/WebSocket/Stage/Resource"
+   }
+  },
+  "AIGatewayAnthropicSecret37114280": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "Anthropic API key for AI Gateway",
+    "GenerateSecretString": {},
+    "Name": "vibesdk/dev/anthropic-api-key"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/AIGateway/AnthropicSecret/Resource"
+   }
+  },
+  "AIGatewayOpenAISecret03AFD22E": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": "OpenAI API key for AI Gateway",
+    "GenerateSecretString": {},
+    "Name": "vibesdk/dev/openai-api-key"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/AIGateway/OpenAISecret/Resource"
+   }
+  },
+  "AIGatewayHandlerServiceRole6A275294": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/AIGateway/Handler/ServiceRole/Resource"
+   }
+  },
+  "AIGatewayHandlerServiceRoleDefaultPolicy98DAB336": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Ref": "AIGatewayAnthropicSecret37114280"
+        },
+        {
+         "Ref": "AIGatewayOpenAISecret03AFD22E"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AIGatewayHandlerServiceRoleDefaultPolicy98DAB336",
+    "Roles": [
+     {
+      "Ref": "AIGatewayHandlerServiceRole6A275294"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/AIGateway/Handler/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "AIGatewayHandler20E32958": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-159326044546-us-east-1",
+     "S3Key": "a04eb46cacc62b5e21e14ca0367904ab6824bf0f6d602175c47306c835bb7256.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "FALLBACK_PROVIDER": "anthropic"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "AIGatewayHandlerServiceRole6A275294",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "AIGatewayHandlerServiceRoleDefaultPolicy98DAB336",
+    "AIGatewayHandlerServiceRole6A275294"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/AIGateway/Handler/Resource",
+    "aws:asset:path": "asset.a04eb46cacc62b5e21e14ca0367904ab6824bf0f6d602175c47306c835bb7256",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SandboxSandboxRepo3126C78E": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "EmptyOnDelete": true,
+    "RepositoryName": "vibesdk-dev-sandbox"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/SandboxRepo/Resource"
+   }
+  },
+  "SandboxCluster4D1D01C6": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "vibesdk-dev-sandbox",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "VibeSDK"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/Cluster/Resource"
+   }
+  },
+  "SandboxLogGroup873FF726": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/vibesdk/dev/sandbox",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/LogGroup/Resource"
+   }
+  },
+  "SandboxTaskDefTaskRole5A143AD0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/TaskDef/TaskRole/Resource"
+   }
+  },
+  "SandboxTaskDef888AF15D": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "NODE_ENV",
+        "Value": "development"
+       }
+      ],
+      "Essential": true,
+      "HealthCheck": {
+       "Command": [
+        "CMD-SHELL",
+        "curl -f http://localhost:3000/health || exit 1"
+       ],
+       "Interval": 30,
+       "Retries": 3,
+       "StartPeriod": 60,
+       "Timeout": 5
+      },
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         {
+          "Fn::Select": [
+           4,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::GetAtt": [
+               "SandboxSandboxRepo3126C78E",
+               "Arn"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         ".dkr.ecr.",
+         {
+          "Fn::Select": [
+           3,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::GetAtt": [
+               "SandboxSandboxRepo3126C78E",
+               "Arn"
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         ".",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/",
+         {
+          "Ref": "SandboxSandboxRepo3126C78E"
+         },
+         ":latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "SandboxLogGroup873FF726"
+        },
+        "awslogs-stream-prefix": "sandbox",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "sandbox",
+      "PortMappings": [
+       {
+        "ContainerPort": 3000,
+        "Protocol": "tcp"
+       },
+       {
+        "ContainerPort": 5173,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "SandboxTaskDefExecutionRole70CA929C",
+      "Arn"
+     ]
+    },
+    "Family": "vibesdk-dev-sandbox",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "SandboxTaskDefTaskRole5A143AD0",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/TaskDef/Resource"
+   }
+  },
+  "SandboxTaskDefExecutionRole70CA929C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/TaskDef/ExecutionRole/Resource"
+   }
+  },
+  "SandboxTaskDefExecutionRoleDefaultPolicyC27A747F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SandboxSandboxRepo3126C78E",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SandboxLogGroup873FF726",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SandboxTaskDefExecutionRoleDefaultPolicyC27A747F",
+    "Roles": [
+     {
+      "Ref": "SandboxTaskDefExecutionRole70CA929C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "SandboxALB625259E9": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Name": "vibesdk-dev-preview",
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "NetworkingALBSecurityGroup778F5094",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     {
+      "Ref": "NetworkingVPCPublicSubnet1Subnet456768EF"
+     },
+     {
+      "Ref": "NetworkingVPCPublicSubnet2Subnet06EE199A"
+     }
+    ],
+    "Type": "application"
+   },
+   "DependsOn": [
+    "NetworkingVPCPublicSubnet1DefaultRoute87E8EA0A",
+    "NetworkingVPCPublicSubnet1RouteTableAssociation998A5E8B",
+    "NetworkingVPCPublicSubnet2DefaultRouteFC2DBB44",
+    "NetworkingVPCPublicSubnet2RouteTableAssociation9794F550"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/ALB/Resource"
+   }
+  },
+  "SandboxALBHttpListenerFBCBE1B3": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "SandboxDefaultTG2FAE5EBD"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "SandboxALB625259E9"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/ALB/HttpListener/Resource"
+   }
+  },
+  "SandboxDefaultTG2FAE5EBD": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 30,
+    "HealthCheckPath": "/health",
+    "Port": 3000,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Ref": "NetworkingVPC47331CE2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Sandbox/DefaultTG/Resource"
+   }
+  },
+  "FrontendFrontendBucket428B8C09": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "vibesdk-dev-frontend-",
+       {
+        "Ref": "AWS::AccountId"
+       }
+      ]
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Frontend/FrontendBucket/Resource"
+   }
+  },
+  "FrontendFrontendBucketPolicy9C197D3C": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "FrontendFrontendBucket428B8C09"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "FrontendFrontendBucket428B8C09",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "FrontendFrontendBucket428B8C09",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":cloudfront::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":distribution/",
+            {
+             "Ref": "FrontendDistributionC0C89627"
+            }
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "FrontendFrontendBucket428B8C09",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Frontend/FrontendBucket/Policy/Resource"
+   }
+  },
+  "FrontendFrontendBucketAutoDeleteObjectsCustomResource14730577": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "FrontendFrontendBucket428B8C09"
+    }
+   },
+   "DependsOn": [
+    "FrontendFrontendBucketPolicy9C197D3C"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Frontend/FrontendBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "FrontendDistributionOrigin1S3OriginAccessControl96CDF506": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "VibeSDKDevFrontendDistributiOrigin1S3OriginAccessControl816001E7",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Frontend/Distribution/Origin1/S3OriginAccessControl/Resource"
+   }
+  },
+  "FrontendDistributionC0C89627": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "CustomErrorResponses": [
+      {
+       "ErrorCode": 404,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      },
+      {
+       "ErrorCode": 403,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "VibeSDKDevFrontendDistributionOrigin1D2298CA3",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "FrontendFrontendBucket428B8C09",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "VibeSDKDevFrontendDistributionOrigin1D2298CA3",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "FrontendDistributionOrigin1S3OriginAccessControl96CDF506",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/Frontend/Distribution/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/31TTW/bMAz9LburWpEM2K5puhYBui5Isu5YyDLrsrFFQ6QSZIb/+yDLdtxg3YnvPVLih6iZns2/6utP5shXNt9flZjpZivG7pU58nMDdqabp9qq5Yt7Wi/VOmQl2m3IHEjUzmhDQWBnshLO+llbMJNFI0huDI7g+2odzaOReyNwNCe19ngwAueLV07AOxgDUiU9W4gY+1qBE3VX0vGBiugf4BZs8Cine0+h7sr6r7ByhQfmVqGpdLOh1Epn11Si7XIn1KqSCtbNAxXjXQNuVX5ypqI80804kA60iue6uQl2n1rrUTLnFO94IjeG42mwHoQr40wBXjfbjvd9eJBWWSocCunmF4NfE5XROeIB3FJl0E1dvTLQZYlxpJOAXhnoKgcnKKe1pwPm4O+JitToRxGtMjUW6dV0swGWRY3dfHt4C3VJp6rPO2FbMUVaqg5sgCl4C3Ek6gfIK+XR2aPB29+c8I724BZBXsnjH/DRd2atKk2V5UY38XXBV8jcr+ldcDau7BDy7CiHN9aPnRm8iufPhhmE9SKaSaOHmW5+Q7al+IZ9v9GMWvoII427Xvjxm1zQi+D3c2kVWB8HWxOjkD+lCQwsulk3yzKwpAkM8M74WO3O8P4WXtDhkO5SIScGHfiz1iooDQvakkyemdI4i66ITS/qukTbVf5AJr/pfCnvOz6NQxZwfcyAJ/6d8QXI+NsmtFW2pJC/eHKim1tk8ZiFrujt/KfHAt3CWmCOLfj0Jz6Qp4fbdrJNgYWqfy5XvCxIHeQiaFj8bk+7xYjvhK5oVVwj/cafD7Mv+pu+/vTGiFc+OMEK9CbZv2VoczqaBQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VibeSDK-Dev/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "NetworkingVpcIdA4694F27": {
+   "Description": "VPC ID",
+   "Value": {
+    "Ref": "NetworkingVPC47331CE2"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-vpc-id"
+   }
+  },
+  "NetworkingVpcCidr13534A5D": {
+   "Description": "VPC CIDR Block",
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingVPC47331CE2",
+     "CidrBlock"
+    ]
+   }
+  },
+  "NetworkingPublicSubnetIds86741178": {
+   "Description": "Public Subnet IDs",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingVPCPublicSubnet1Subnet456768EF"
+      },
+      ",",
+      {
+       "Ref": "NetworkingVPCPublicSubnet2Subnet06EE199A"
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-public-subnet-ids"
+   }
+  },
+  "NetworkingPrivateSubnetIds78D9FF45": {
+   "Description": "Private Subnet IDs",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Ref": "NetworkingVPCPrivateSubnet1SubnetA4560E1F"
+      },
+      ",",
+      {
+       "Ref": "NetworkingVPCPrivateSubnet2Subnet388EEB72"
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-private-subnet-ids"
+   }
+  },
+  "NetworkingALBSecurityGroupId0E5E9C83": {
+   "Description": "ALB Security Group ID",
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingALBSecurityGroup778F5094",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-alb-sg-id"
+   }
+  },
+  "NetworkingECSSecurityGroupId68BFD41E": {
+   "Description": "ECS Security Group ID",
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingECSSecurityGroup50D85B84",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-ecs-sg-id"
+   }
+  },
+  "NetworkingLambdaSecurityGroupId36193F5C": {
+   "Description": "Lambda Security Group ID",
+   "Value": {
+    "Fn::GetAtt": [
+     "NetworkingLambdaSecurityGroupA5120D58",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-lambda-sg-id"
+   }
+  },
+  "DatabaseMainTableNameE91C530D": {
+   "Description": "Main DynamoDB table name",
+   "Value": {
+    "Ref": "DatabaseMainTableCC4AF5A1"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-main-table-name"
+   }
+  },
+  "DatabaseMainTableArn59F0583C": {
+   "Description": "Main DynamoDB table ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "DatabaseMainTableCC4AF5A1",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-main-table-arn"
+   }
+  },
+  "DatabaseMainTableStreamArnE856DA85": {
+   "Description": "Main DynamoDB table stream ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "DatabaseMainTableCC4AF5A1",
+     "StreamArn"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-main-table-stream-arn"
+   }
+  },
+  "StorageTemplatesBucketNameDE400F67": {
+   "Description": "Templates S3 bucket name",
+   "Value": {
+    "Ref": "StorageTemplatesBucketA3218BD9"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-templates-bucket-name"
+   }
+  },
+  "StorageTemplatesBucketArn2724B6BC": {
+   "Description": "Templates S3 bucket ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "StorageTemplatesBucketA3218BD9",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-templates-bucket-arn"
+   }
+  },
+  "StorageAssetsBucketName3188F91A": {
+   "Description": "Assets S3 bucket name",
+   "Value": {
+    "Ref": "StorageAssetsBucket9CC199D9"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-assets-bucket-name"
+   }
+  },
+  "StorageAssetsBucketArn75C8849E": {
+   "Description": "Assets S3 bucket ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "StorageAssetsBucket9CC199D9",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-assets-bucket-arn"
+   }
+  },
+  "AuthUserPoolIdC0605E59": {
+   "Description": "Cognito User Pool ID",
+   "Value": {
+    "Ref": "AuthUserPool8115E87F"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-user-pool-id"
+   }
+  },
+  "AuthUserPoolClientId8216BF9A": {
+   "Description": "Cognito User Pool Client ID",
+   "Value": {
+    "Ref": "AuthUserPoolAppClient1D18298A"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-user-pool-client-id"
+   }
+  },
+  "AuthUserPoolDomainCE038363": {
+   "Description": "Cognito User Pool Domain",
+   "Value": {
+    "Ref": "AuthUserPoolDomain31C6792A"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-user-pool-domain"
+   }
+  },
+  "AuthCognitoHostedUIUrlB5BC11B3": {
+   "Description": "Cognito Hosted UI URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://vibesdk-dev.auth.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".amazoncognito.com"
+     ]
+    ]
+   }
+  },
+  "ApiRestApiEndpoint4DEFB5CC": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "ApiRestApiE35FEAFE"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiApiUrlF2D81078": {
+   "Description": "REST API URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "ApiRestApiE35FEAFE"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "ApiRestApiDeploymentStagedevE2B308CE"
+      },
+      "/"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-api-url"
+   }
+  },
+  "WebSocketWebSocketUrlAEBC2CF7": {
+   "Description": "WebSocket API URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "wss://",
+      {
+       "Ref": "WebSocketWebSocketApiA2AA4B88"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/dev"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-ws-url"
+   }
+  },
+  "AIGatewayAIGatewayFunctionArnB4D63FA5": {
+   "Description": "AI Gateway Lambda function ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "AIGatewayHandler20E32958",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-ai-gateway-arn"
+   }
+  },
+  "SandboxClusterArn75ED4237": {
+   "Description": "ECS Cluster ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "SandboxCluster4D1D01C6",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-cluster-arn"
+   }
+  },
+  "SandboxTaskDefinitionArnB3171190": {
+   "Description": "Task Definition ARN",
+   "Value": {
+    "Ref": "SandboxTaskDef888AF15D"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-task-def-arn"
+   }
+  },
+  "SandboxRepositoryUriF2DF6536": {
+   "Description": "ECR Repository URI",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Fn::Select": [
+        4,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "SandboxSandboxRepo3126C78E",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".dkr.ecr.",
+      {
+       "Fn::Select": [
+        3,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "SandboxSandboxRepo3126C78E",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "SandboxSandboxRepo3126C78E"
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-sandbox-repo-uri"
+   }
+  },
+  "SandboxLoadBalancerDns278FD8E8": {
+   "Description": "Preview ALB DNS Name",
+   "Value": {
+    "Fn::GetAtt": [
+     "SandboxALB625259E9",
+     "DNSName"
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-preview-dns"
+   }
+  },
+  "FrontendFrontendUrlE3736ECE": {
+   "Description": "Frontend CloudFront URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "FrontendDistributionC0C89627",
+        "DomainName"
+       ]
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "vibesdk-dev-frontend-url"
+   }
+  },
+  "FrontendFrontendBucketNameACC9E00B": {
+   "Description": "Frontend S3 bucket name",
+   "Value": {
+    "Ref": "FrontendFrontendBucket428B8C09"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-frontend-bucket"
+   }
+  },
+  "FrontendDistributionId6CBC2EDF": {
+   "Description": "CloudFront distribution ID",
+   "Value": {
+    "Ref": "FrontendDistributionC0C89627"
+   },
+   "Export": {
+    "Name": "vibesdk-dev-distribution-id"
+   }
+  },
+  "StackName": {
+   "Value": "VibeSDK-Dev"
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
